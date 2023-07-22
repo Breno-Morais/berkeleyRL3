@@ -194,9 +194,13 @@ class ApproximateQAgent(PacmanQAgent):
         "*** YOUR CODE HERE ***"
         Q = 0
 
+        print('\n\n\n')
+        print('State: \n', state)
+        print('Action: ', action)
         for feature, value in self.featExtractor.getFeatures(state, action).items():
-          Q += value * self.weights[(action,feature)]
-        
+          print('Feature: ', feature, ' Value: ', value)
+          Q += value * self.weights[feature]        
+
         return Q
 
     def update(self, state, action, nextState, reward):
@@ -205,9 +209,9 @@ class ApproximateQAgent(PacmanQAgent):
         """
         "*** YOUR CODE HERE ***"
         delta = reward + self.discount * self.computeValueFromQValues(nextState) - self.getQValue(state, action)
+
         for feature, value in self.featExtractor.getFeatures(state, action).items():
-          self.weights[(action,feature)] = self.weights[(action,feature)] + self.alpha * delta * value
-            
+          self.weights[feature] = self.weights[feature] + self.alpha * delta * value
                 
 
     def final(self, state):
@@ -219,4 +223,7 @@ class ApproximateQAgent(PacmanQAgent):
         if self.episodesSoFar == self.numTraining:
             # you might want to print your weights here for debugging
             "*** YOUR CODE HERE ***"
+            for (key, value) in self.getWeights().items():
+              print('Key: ', key, ' - Value: ', value)
+
             pass
